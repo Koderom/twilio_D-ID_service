@@ -23,6 +23,9 @@ const wsServer = new WebSocketServer({
 let connection;
 wsServer.on("request", (request) => {
     connection = request.accept(null, request.origin);
+    connection.send( JSON.stringify({
+        type: "connected"
+    }));
     console.log("conectado");
 });
 
