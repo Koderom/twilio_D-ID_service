@@ -74,7 +74,9 @@ DID.createVideo = async (req, res) => {
         const from = req.body.WaId;
         sendObjetcToSocket(req.socketChat, {type: 'message', message, profileName, from});
         const videoID = await clipGenerate(message);
+        sendObjetcToSocket(req.socketChat, {type: 'generating-video'});
         const videoUrl = await getClipUrlByID(videoID);
+        sendObjetcToSocket(req.socketChat, {type: 'video-generated'});
         sendObjetcToSocket(req.socketChat, {type: 'videoUrl', videoUrl});
         res.status(200).send("OK");  
     } catch (error) {
