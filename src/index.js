@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const {DID} = require('./controllers/DID');
+const {Audius} = require('./controllers/Audius');
 const http = require('http');
 const cors = require("cors");
 const WebSocketServer = require("websocket").server;
@@ -30,7 +31,12 @@ app.get('/', (req, res) => {
     console.log("test");
     res.status(200).send('OK');
   });
-app.post('/test', DID.test);
+  
+app.post('/test', (req, res, next) => {
+    req.socketChat = connection;
+    next();
+},Audius.test);
+
 app.post('/did/create-video',(req, res, next) => {
     req.socketChat = connection;
     next();
